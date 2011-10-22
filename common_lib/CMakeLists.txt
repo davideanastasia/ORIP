@@ -1,0 +1,1 @@
+ADD_LIBRARY(common_lib STATIC commandlineparser.cpp commandlineparser.h common_lib.cpp common_lib.h roi_mask.h sleep_t.h timing.h)
