@@ -11,14 +11,15 @@
 
 namespace ORIP
 {
-  template <class Type>
+  template <typename Type>
   class Matrix {
   private:
-    Type* m_data;
-    int m_elems;
     int m_rows;
     int m_cols;
-    
+    int m_elems;
+
+    Type* m_data;
+
   public:
     Matrix(int rows, int cols);
     ~Matrix();
@@ -34,56 +35,54 @@ namespace ORIP
     int get_elems() const;
   };
   
-  template<class Type>
+  template<typename Type>
   Matrix<Type>::Matrix(int rows, int cols):
-  m_rows(rows), m_cols(cols), m_elems(rows*cols)
-  {
-    m_data = new Type[m_elems];
-  }
+  m_rows(rows), m_cols(cols), m_elems(rows*cols), m_data(new Type[rows*cols])
+  {}
   
-  template<class Type>
+  template<typename Type>
   Matrix<Type>::~Matrix()
   {
     delete [] m_data;
   }
   
-  template<class Type>
+  template<typename Type>
   inline int Matrix<Type>::get_rows() const
   {
     return m_rows;
   }
   
-  template<class Type>
+  template<typename Type>
   inline int Matrix<Type>::get_cols() const
   {
     return m_cols;
   }
   
-  template<class Type>
+  template<typename Type>
   inline int Matrix<Type>::get_elems() const
   {
     return m_elems;
   }
   
-  template<class Type>
+  template<typename Type>
   inline Type& Matrix<Type>::operator()(int pos)
   {
     return m_data[ pos ];
   }
 
-  template<class Type>
+  template<typename Type>
   inline const Type& Matrix<Type>::operator()(int pos) const
   {
     return m_data[ pos ];
   }
   
-  template<class Type>
+  template<typename Type>
   inline Type& Matrix<Type>::operator()(int row, int col)
   {
     return m_data[ row*m_cols + col ];
   }
 
-  template<class Type>
+  template<typename Type>
   inline const Type& Matrix<Type>::operator()(int row, int col) const
   {
     return m_data[ row*m_cols + col ];
