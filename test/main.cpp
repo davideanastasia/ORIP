@@ -12,11 +12,8 @@
 
 #include <iostream>
 
-#include "commandlineparser.h"
-#include "common_lib.h"
 #include "matrix.h"
 #include "convolution.h"
-#include "timing.h"
 
 template <class T>
 void set_input(ORIP::Matrix<T>& M)
@@ -61,6 +58,9 @@ void set_kernel(ORIP::Matrix<float>& M)
 
 int main(int ac, char* av[])
 {
+    using std::cout;
+    using std::endl;
+  
     ORIP::Matrix<int> input(6, 6);
     set_input(input);
     cout << input;

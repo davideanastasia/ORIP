@@ -11,6 +11,8 @@
 #define ORIP_MATRIX
 
 #include <new>
+#include <iostream>
+#include <iomanip>
 
 namespace ORIP
 {
@@ -91,8 +93,6 @@ namespace ORIP
   {
     return m_data[ row*m_cols + col ];
   }
-
-#include <iomanip>
 
   template<typename T>
   std::ostream &operator<<( std::ostream &out, const ORIP::Matrix<T>& M )
