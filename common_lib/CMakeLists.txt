@@ -9,7 +9,7 @@ SET(CMN_LIB_HDRS
 
 SET(CMN_LIB_SRCS
   commandlineparser.cpp
-  convolution.cpp
+#  convolution.cpp
   common_lib.cpp)
 
 ADD_LIBRARY(common_lib STATIC ${CMN_LIB_SRCS} ${CMN_LIB_HDRS})
