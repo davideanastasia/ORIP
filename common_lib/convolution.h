@@ -20,7 +20,7 @@ void convolution(const Matrix<_M>& in_mat, const Matrix<_K>& kernel_mat, Matrix<
     const int offset_rows = (kernel_mat.get_rows() - 1)/2; //(( rows2%2 == 0 ) ? (rows2/2-1) : (rows2/2));
     const int offset_cols = (kernel_mat.get_cols() - 1)/2; //(( cols2%2 == 0 ) ? (cols2/2-1) : (cols2/2));
 #ifdef CONV_DEBUG
-    std::cerr << "(" << offset_rows << "," << offset_cols << ")" << std::endl;
+    std::cerr << "offsets: (" << offset_rows << "," << offset_cols << ")" << std::endl;
 #endif
 
     _M temp_item;
@@ -31,8 +31,8 @@ void convolution(const Matrix<_M>& in_mat, const Matrix<_K>& kernel_mat, Matrix<
         {
             temp_item = 0; // reset
 #ifdef CONV_DEBUG
-            std::cerr << "(" << i << "," << j << ")" << std::endl;
-            std::cerr << "ik (" << ((i-offset_rows < 0)? (offset_rows-i): 0) << "," << ((i+offset_rows >= in_mat.get_rows())? (kernel_mat.get_rows() - (in_mat.get_rows()+1-i-offset_rows)): kernel_mat.get_rows()) << ")" << std::endl;
+            std::cerr << " pos: (" << i << "," << j << ")";
+            std::cerr << " ik: (" << ((i-offset_rows < 0)? (offset_rows-i): 0) << "," << ((i+offset_rows >= in_mat.get_rows())? (kernel_mat.get_rows() - (in_mat.get_rows()+1-i-offset_rows)): kernel_mat.get_rows()) << ")";
 #endif
 
             for (int ik = ((i-offset_rows < 0)? (offset_rows-i): 0);
@@ -40,7 +40,7 @@ void convolution(const Matrix<_M>& in_mat, const Matrix<_K>& kernel_mat, Matrix<
                      ik++)
             {
 #ifdef CONV_DEBUG
-            std::cerr << "jk (" << ((j-offset_cols < 0)? (offset_cols-j): 0) << "," << ((j+offset_cols >= in_mat.get_cols())? (kernel_mat.get_cols() - (in_mat.get_cols()+1-j-offset_cols)): kernel_mat.get_cols()) << ")" << std::endl;
+            std::cerr << " jk: (" << ((j-offset_cols < 0)? (offset_cols-j): 0) << "," << ((j+offset_cols >= in_mat.get_cols())? (kernel_mat.get_cols() - (in_mat.get_cols()+1-j-offset_cols)): kernel_mat.get_cols()) << ")";
 #endif
                 for (int jk = ((j-offset_cols < 0)? (offset_cols-j): 0);
                          jk < ((j+offset_cols >= in_mat.get_cols())? (kernel_mat.get_cols() - (in_mat.get_cols()+1-j-offset_cols)): kernel_mat.get_cols());
@@ -50,6 +50,10 @@ void convolution(const Matrix<_M>& in_mat, const Matrix<_K>& kernel_mat, Matrix<
                 }
             }
             out_mat(i, j) = temp_item; // set final result
+
+#ifdef CONV_DEBUG
+            std::cerr << std::endl;
+#endif
         }
     }
 }

@@ -74,7 +74,7 @@ int main(int ac, char* av[])
     ORIP::convolution(input, kernel, output);
 
     cout << output;
-
+    cout << "Test Floating Point" << endl;
 
     ORIP::Matrix<float> inputf(6, 6);
     set_input(inputf);
