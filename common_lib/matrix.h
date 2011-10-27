@@ -7,12 +7,16 @@
  *
  */
 
+#ifndef ORIP_MATRIX
+#define ORIP_MATRIX
+
 #include <new>
 
 namespace ORIP
 {
   template <typename Type>
   class Matrix {
+    //friend std::ostream& operator<<(std::ostream& output, const Matrix& p);
   private:
     int m_rows;
     int m_cols;
@@ -87,4 +91,43 @@ namespace ORIP
   {
     return m_data[ row*m_cols + col ];
   }
+
+#include <iomanip>
+
+  template<typename T>
+  std::ostream &operator<<( std::ostream &out, const ORIP::Matrix<T>& M )
+  {
+    using namespace std;
+    const std::streamsize _width = 7;
+
+    out.precision(3);
+    cout.fill(' ');
+    out.setf(ios::fixed);
+
+    out << "[";
+    for (int i = 0; i < M.get_rows(); i++)
+    {
+        for (int j=0; j < M.get_cols()-1; j++)
+        {
+            out << setw(_width) << M(i, j) << ",";
+        }
+        out << setw(_width) << M(i, M.get_cols()-1) << ";";
+        out << "\n";
+    }
+
+    for (int j=0; j < M.get_cols()-1; j++)
+    {
+        out << setw(_width) << M(M.get_rows()-1, j) << ",";
+    }
+    out << setw(_width) << M(M.get_rows()-1, M.get_cols()-1);
+    out << "]" << endl;
+
+    out.unsetf(ios::floatfield);
+    return out;
+  }
+
 };
+
+
+
+#endif // ORIP_MATRIX
