@@ -105,7 +105,7 @@ namespace ORIP
     out.setf(ios::fixed);
 
     out << "[";
-    for (int i = 0; i < M.get_rows(); i++)
+    for (int i = 0; i < M.get_rows()-1; i++)
     {
         for (int j=0; j < M.get_cols()-1; j++)
         {
