@@ -57,6 +57,7 @@ void convolution(const Matrix<_M>& in_mat, const Matrix<_K>& kernel_mat, Matrix<
         }
     }
 }
+
 }
 
 #endif
