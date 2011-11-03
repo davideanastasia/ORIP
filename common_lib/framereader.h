@@ -58,7 +58,7 @@ bool getY(FrameReader& reader, Matrix<_T>& frame)
         * If everything is fine, I have my data ready to be stored in my frame
         */
         for (int idx = 0; idx < frame.get_elems(); idx++)
-            frame(idx) = static_cast<_T>(_temp_bufferp[idx]);
+            frame(idx) = static_cast<_T>(_temp_buffer[idx]);
 
         return true;
     }
