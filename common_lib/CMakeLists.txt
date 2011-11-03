@@ -8,6 +8,7 @@ SET(CMN_LIB_HDRS
   matrix.h
   convolution.h
   framereader.h
+  yuvreader.h
   stopwatch.h
   )
 
@@ -17,6 +18,7 @@ SET(CMN_LIB_SRCS
 
   #convolution.cpp
   framereader.cpp
+  yuvreader.cpp
   stopwatch.cpp)
 
 ADD_LIBRARY(common_lib STATIC ${CMN_LIB_SRCS} ${CMN_LIB_HDRS})
