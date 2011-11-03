@@ -49,7 +49,7 @@ bool getY(FrameReader& reader, Matrix<_T>& frame)
 
     /*
      * I allocate a new buffer, but I would love not too!
-     * I can use the Matrix buffer as a temporary one
+     * I can use the Matrix buffer as a temporary one using the member Matrix<T>::data()
      */ 
     unsigned char* _temp_buffer = new unsigned char[frame.get_elems()];
 

@@ -39,6 +39,8 @@ namespace ORIP
     int get_rows() const;
     int get_cols() const;
     int get_elems() const;
+
+    Type* data();
   };
   
   template<typename Type>
@@ -92,6 +94,12 @@ namespace ORIP
   inline const Type& Matrix<Type>::operator()(int row, int col) const
   {
     return m_data[ row*m_cols + col ];
+  }
+
+  template<typename Type>
+  Type* Matrix<Type>::data()
+  {
+    return m_data;  
   }
 
   template<typename T>
