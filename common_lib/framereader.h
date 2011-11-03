@@ -7,7 +7,9 @@
 #ifndef ORIP_FRAMEREADER_H
 #define ORIP_FRAMEREADER_H
 
+#include <cassert>
 #include <string>
+#include "matrix.h"
 
 namespace ORIP
 {
@@ -34,6 +36,35 @@ public:
     virtual int getFrameWidth() = 0;
     virtual int getFrameHeight() = 0;
 };
+
+template<typename _T>
+bool getY(FrameReader& reader, Matrix<_T>& frame)
+{
+    /*
+     * I know, assert is not the best way to deal with this kind of error,
+     * but it can be definitely improved in the future
+     */
+    assert(reader.getFrameWidth() == frame.get_cols());
+    assert(reader.getFrameHeight() == frame.get_rows());
+
+    /*
+     * I allocate a new buffer, but I would love not too!
+     * I can use the Matrix buffer as a temporary one
+     */ 
+    unsigned char* _temp_buffer = new unsigned char[frame.get_elems()];
+
+    if ( reader.getY(_temp_buffer) ) {
+        /*
+        * If everything is fine, I have my data ready to be stored in my frame
+        */
+        for (int idx = 0; idx < frame.get_elems(); idx++)
+            frame(idx) = static_cast<_T>(_temp_bufferp[idx]);
+
+        return true;
+    }
+    else
+        return false;
+}
 
 }
 
