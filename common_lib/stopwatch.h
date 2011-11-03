@@ -24,9 +24,6 @@ public:
   void stop();
   void reset();
 
-  //void stop_and_update();
-  //void update();
-
   double get_time();
 };
 

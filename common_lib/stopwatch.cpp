@@ -53,20 +53,11 @@ public:
 
   void stop()
   {
-    QueryPerformanceCounter(&m_stop_t);
-  }
-
-  void update()
-  {
-    m_elapsed_time += ((double)((long)m_stop_t.QuadPart - (long)m_start_t.QuadPart));
-  }
-
-  void stop_and_update()
-  {
     // stop timer
-    stop(); 
+    QueryPerformanceCounter(&m_stop_t);
+     
     // increment counter
-    update(); 
+    m_elapsed_time += ((double)((long)m_stop_t.QuadPart - (long)m_start_t.QuadPart));
   }
 
   void reset()
@@ -104,24 +95,14 @@ public:
 
   void stop()
   {
-    gettimeofday(&m_end_t, NULL);
     //end_t = clock();
-  }
-
-  void update()
-  {
+    gettimeofday(&m_end_t, NULL);
+    
     //__time = ((double)(end_t - start_t));
-
     double delta = (m_end_t.tv_sec - m_start_t.tv_sec) * 1000.0;    // sec to ms
     delta += (m_end_t.tv_usec - m_start_t.tv_usec) / 1000.0;        // us to ms
 
     m_elapsed_time += delta;
-  }
-
-  void stop_and_update()
-  {
-    stop();
-    update();
   }
 
   void reset()
@@ -153,7 +134,7 @@ void StopWatch::start()
 
 void StopWatch::stop()
 {
-  m_Impl->stop_and_update();
+  m_Impl->stop();
 }
 
 void StopWatch::reset()
