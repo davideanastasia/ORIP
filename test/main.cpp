@@ -15,6 +15,7 @@
 #include "matrix.h"
 #include "convolution.h"
 #include "framereader.h"
+#include "framewriter.h"
 
 template <class T>
 void set_input(ORIP::Matrix<T>& M)
@@ -101,9 +102,12 @@ int main()
 {
     std::cout << "test" << std::endl;
 
-    ORIP::FrameReader* my_reader = ORIP::FrameReader::getReader(ORIP::YUV420);
+    ORIP::FrameReader* my_reader = ORIP::FrameReader::getReader(ORIP::I_YUV420);
+    ORIP::FrameWriter* my_writer = ORIP::FrameWriter::getWriter(ORIP::O_YUV420);
+
 
     my_reader->open("../hall.yuv");
+    my_writer->open("../test.yuv");
 
     ORIP::Matrix<char> my_matrix(my_reader->getFrameHeight(), my_reader->getFrameWidth());
     ORIP::Matrix<char> my_output(my_reader->getFrameHeight(), my_reader->getFrameWidth());
@@ -115,6 +119,7 @@ int main()
     {
         ORIP::convolution(my_matrix, kernel, my_output);
 
+        my_writer->storeY(my_output.data());
         std::cout << "Frame " << idx++ << std::endl;
     }
 
