@@ -10,7 +10,8 @@ SET(CMN_LIB_HDRS
   framereader.h
   yuvreader.h
   stopwatch.h
-  )
+  framewriter.h
+  yuvwriter.h)
 
 SET(CMN_LIB_SRCS
   commandlineparser.cpp
@@ -19,6 +20,8 @@ SET(CMN_LIB_SRCS
   #convolution.cpp
   framereader.cpp
   yuvreader.cpp
-  stopwatch.cpp)
+  stopwatch.cpp
+  framewriter.cpp
+  yuvwriter.cpp)
 
 ADD_LIBRARY(common_lib STATIC ${CMN_LIB_SRCS} ${CMN_LIB_HDRS})
