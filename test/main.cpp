@@ -129,9 +129,17 @@ void set_sobel_y(ORIP::Matrix<T>& M)
     M(2,2) = +1;
 }
 
-int main()
+template <class T>
+void set_8x8(ORIP::Matrix<T>& M)
 {
-    std::cout << "test" << std::endl;
+    for (int idx = 0; idx < M.get_elems(); idx++) M(idx) = 0;
+    M(3,3) = 1; M(3,4) = 1;
+    M(4,3) = 1; M(4,4) = 1;
+}
+
+int main(int ac, char* av[])
+{
+    ORIP::StopWatch stopwatch;
 
     ORIP::FrameReader* my_reader = ORIP::FrameReader::getReader(ORIP::I_YUV420);
     ORIP::FrameWriter* my_writer = ORIP::FrameWriter::getWriter(ORIP::O_YUV420);
@@ -139,20 +147,20 @@ int main()
     my_reader->open("../hall.yuv");
     my_writer->open("../test.yuv");
 
-    ORIP::Matrix<char> my_matrix(my_reader->getFrameHeight(), my_reader->getFrameWidth());
+    ORIP::Matrix<short> my_matrix(my_reader->getFrameHeight(), my_reader->getFrameWidth());
+    ORIP::Matrix<short> G(my_reader->getFrameHeight(), my_reader->getFrameWidth());
 
+    /*
+     // SOBEL
     ORIP::Matrix<char> Gx(my_reader->getFrameHeight(), my_reader->getFrameWidth());
     ORIP::Matrix<char> Gy(my_reader->getFrameHeight(), my_reader->getFrameWidth());
-
-    ORIP::Matrix<char> G(my_reader->getFrameHeight(), my_reader->getFrameWidth());
 
     ORIP::Matrix<char> Kx(3, 3);
     ORIP::Matrix<char> Ky(3, 3);
 
-    ORIP::StopWatch stopwatch;
-
     set_sobel_x(Kx);
     set_sobel_y(Ky);
+
 
     int idx = 0;
     while (ORIP::loadFrame(*my_reader, my_matrix))
@@ -173,7 +181,29 @@ int main()
         ORIP::storeFrame(*my_writer, G);
         std::cout << "Frame " << idx++ << std::endl;
     }
-    std::cout << "Time = " << (stopwatch.get_time()/idx) << std::endl;
+    */
+
+    ORIP::Matrix<float> kernel(8, 8);
+    set_8x8(kernel);
+
+    std::cout << kernel;
+
+    int idx = 0;
+    while (ORIP::loadFrame(*my_reader, my_matrix))
+    {
+        ++idx;
+        stopwatch.start();
+
+        ORIP::convolution(my_matrix, kernel, G);
+
+        stopwatch.stop();
+
+        ORIP::storeFrame(*my_writer, G);
+        
+        std::cout << "Frame " << idx << "\n";        
+    }
+
+    if (idx) std::cout << "Time = " << (stopwatch.get_time()/idx) << std::endl;
 
     return 0;
 }
