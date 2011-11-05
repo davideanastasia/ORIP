@@ -21,12 +21,12 @@ FrameReader* FrameReader::getReader(ReaderMode _mode)
     {
     case V4L:
         {
-            return (new YUVReader);
+            return 0;
         }
     case YUV420:
     default:
         {
-            return 0;
+            return (new YUVReader);
         }
         break;
     }
