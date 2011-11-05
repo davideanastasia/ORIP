@@ -37,8 +37,8 @@ public:
     virtual int getFrameHeight() = 0;
 };
 
-template<typename _T>
-bool loadFrame(FrameReader& reader, Matrix<_T>& frame)
+template<typename Type>
+bool loadFrame(FrameReader& reader, Matrix<Type>& frame)
 {
     /*
      * I know, assert is not the best way to deal with this kind of error,
@@ -49,22 +49,25 @@ bool loadFrame(FrameReader& reader, Matrix<_T>& frame)
 
     /*
      * I allocate a new buffer, but I would love not too!
-     * Member Matrix<T>::data() supplies a temporary buffer to be used for the image
      */ 
-    char* _temp_buffer = static_cast<char*>(frame.data());
+    char* _temp_buffer = new char[frame.get_elems()];
 
     if ( reader.getY(_temp_buffer) ) {
         /*
         * If everything is fine, I have my data ready to be stored in my frame
         * I copy the data backwards
         */
-        for (int idx = (frame.get_elems()-1); idx >= 0; idx--)
-            frame(idx) = static_cast<_T>(_temp_buffer[idx]);
+        for (int idx = 0; idx < frame.get_elems(); idx++)
+            frame(idx) = static_cast<Type>(_temp_buffer[idx]);
 
+        delete [] _temp_buffer;
         return true;
     }
     else
+    {
+        delete [] _temp_buffer;
         return false;
+    }
 }
 
 /*

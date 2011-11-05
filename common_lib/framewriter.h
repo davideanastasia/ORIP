@@ -54,9 +54,16 @@ bool storeFrame(FrameWriter& writer, Matrix<Type>& frame)
     char* _temp_buffer = new char[frame.get_elems()];
 
     for (int idx = 0; idx < frame.get_elems(); idx++)
-        _temp_buffer[idx] = static_cast<Type>(frame(idx));
+        _temp_buffer[idx] = static_cast<char>(frame(idx));
 
-    return writer.storeY(_temp_buffer);
+    if ( writer.storeY(_temp_buffer) )
+    {
+        delete [] _temp_buffer;
+        return true;
+    } else {
+        delete [] _temp_buffer;
+        return false;
+    }
 }
 
 /*
