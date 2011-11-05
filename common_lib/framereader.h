@@ -49,15 +49,15 @@ bool getY(FrameReader& reader, Matrix<_T>& frame)
 
     /*
      * I allocate a new buffer, but I would love not too!
-     * I can use the Matrix buffer as a temporary one using the member Matrix<T>::data()
+     * Member Matrix<T>::data() supplies a temporary buffer to be used for the image
      */ 
-    unsigned char* _temp_buffer = new unsigned char[frame.get_elems()];
+    char* _temp_buffer = static_cast<char*>(frame.data());
 
     if ( reader.getY(_temp_buffer) ) {
         /*
         * If everything is fine, I have my data ready to be stored in my frame
         */
-        for (int idx = 0; idx < frame.get_elems(); idx++)
+        for (int idx = (frame.get_elems()-1); idx >= 0; idx--)
             frame(idx) = static_cast<_T>(_temp_buffer[idx]);
 
         return true;
