@@ -11,8 +11,8 @@
 namespace ORIP
 {
 
-template <typename _M, typename _K>
-void convolution(const Matrix<_M>& in_mat, const Matrix<_K>& kernel_mat, Matrix<_M>& out_mat)
+template <typename TypeIO, typename TypeK>
+void convolution(const Matrix<TypeIO>& in_mat, const Matrix<TypeK>& kernel_mat, Matrix<TypeIO>& out_mat)
 {
     assert( in_mat.get_cols() == out_mat.get_cols() );
     assert( in_mat.get_rows() == out_mat.get_rows() );
@@ -23,7 +23,7 @@ void convolution(const Matrix<_M>& in_mat, const Matrix<_K>& kernel_mat, Matrix<
     std::cerr << "offsets: (" << offset_rows << "," << offset_cols << ")" << std::endl;
 #endif
 
-    _M temp_item;
+    TypeIO temp_item;
 
     for (int i = 0; i < in_mat.get_rows(); i++)
     {
