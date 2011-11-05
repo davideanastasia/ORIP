@@ -24,8 +24,8 @@ public:
     static FrameReader* getReader(ReaderMode);
 
     virtual void open(const std::string& filename) = 0;
-    virtual bool getY(unsigned char* Y) = 0;
-    virtual bool getYUV420(unsigned char* Y, unsigned char* U, unsigned char* V) = 0;
+    virtual bool getY(char* Y) = 0;
+    virtual bool getYUV420(char* Y, char* U, char* V) = 0;
     virtual void close() = 0;
 
     /*

@@ -36,13 +36,13 @@ public:
      * get only the Y part of the YUV frame
      * return if the status of the read operation
      */ 
-    bool getY(unsigned char* Y);
+    bool getY(char* Y);
 
     /*
      * get the YUV frame in planar format
      * return if the status of the read operation
      */
-    bool getYUV420(unsigned char* Y, unsigned char* U, unsigned char* V);
+    bool getYUV420(char* Y, char* U, char* V);
 
     /*
      * close the YUV video file

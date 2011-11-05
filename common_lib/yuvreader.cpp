@@ -35,7 +35,7 @@ bool YUVReader::getY(char* Y)
     // I should remove this type conversion
     // read char(s) into supplied buffer Y (and hope the user did the right thing,
     // or everything will crash badly!)
-    m_InputFileStream.read((char*)Y, m_Width*m_Height); 
+    m_InputFileStream.read(Y, m_Width*m_Height);
     
     // Move GET cursor forward, skipping the U and V portion
     m_InputFileStream.seekg(m_Width*(m_Height >> 1), std::ios::cur);
@@ -43,7 +43,7 @@ bool YUVReader::getY(char* Y)
     return m_InputFileStream.good();
 }
 
-bool YUVReader::getYUV420(unsigned char* Y, unsigned char* U, unsigned char* V)
+bool YUVReader::getYUV420(char* Y, char* U, char* V)
 {
     if ( !m_InputFileStream.is_open() ) return false;
     if ( !m_InputFileStream.good() ) return false;
@@ -51,11 +51,11 @@ bool YUVReader::getYUV420(unsigned char* Y, unsigned char* U, unsigned char* V)
     // I should remove this type conversion
     // read char(s) into supplied buffer Y (and hope the user did the right thing,
     // or everything will crash badly!)
-    m_InputFileStream.read((char*)Y, m_Width*m_Height);
+    m_InputFileStream.read(Y, m_Width*m_Height);
     
     // Same applies for U and V
-    m_InputFileStream.read((char*)U, ((m_Width*m_Height) >> 2)); // a quarter of the Y frame
-    m_InputFileStream.read((char*)V, ((m_Width*m_Height) >> 2)); // a quarter of the Y frame
+    m_InputFileStream.read(U, ((m_Width*m_Height) >> 2)); // a quarter of the Y frame
+    m_InputFileStream.read(V, ((m_Width*m_Height) >> 2)); // a quarter of the Y frame
 
     return m_InputFileStream.good();
 }
