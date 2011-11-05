@@ -38,6 +38,33 @@ public:
 
 };
 
+template<typename Type>
+bool storeFrame(FrameWriter& writer, Matrix<Type>& frame)
+{
+    /*
+     * I know, assert is not the best way to deal with this kind of error,
+     * but it can be definitely improved in the future
+     */
+    assert(writer.getFrameWidth() == frame.get_cols());
+    assert(writer.getFrameHeight() == frame.get_rows());
+
+    /*
+     * I allocate a new buffer, but I would love not too!
+     */
+    char* _temp_buffer = new char[frame.get_elems()];
+
+    for (int idx = 0; idx < frame.get_elems(); idx++)
+        _temp_buffer[idx] = static_cast<Type>(frame(idx));
+
+    return writer.storeY(_temp_buffer);
+}
+
+/*
+  * Template specialization
+  */
+template<>
+bool storeFrame(FrameWriter& writer, Matrix<char>& frame);
+
 }
 
 #endif // FRAMEWRITER_H
