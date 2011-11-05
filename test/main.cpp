@@ -16,6 +16,7 @@
 #include "convolution.h"
 #include "framereader.h"
 #include "framewriter.h"
+#include "stopwatch.h"
 
 template <class T>
 void set_input(ORIP::Matrix<T>& M)
@@ -148,12 +149,16 @@ int main()
     ORIP::Matrix<char> Kx(3, 3);
     ORIP::Matrix<char> Ky(3, 3);
 
+    ORIP::StopWatch stopwatch;
+
     set_sobel_x(Kx);
     set_sobel_y(Ky);
 
     int idx = 0;
     while (ORIP::loadFrame(*my_reader, my_matrix))
     {
+        stopwatch.start();
+
         ORIP::convolution(my_matrix, Kx, Gx);
         ORIP::convolution(my_matrix, Ky, Gy);
 
@@ -163,9 +168,12 @@ int main()
             G(x) = ( t > 10 )? t : 0;
         }
 
+        stopwatch.stop();
+
         ORIP::storeFrame(*my_writer, G);
         std::cout << "Frame " << idx++ << std::endl;
     }
+    std::cout << "Time = " << (stopwatch.get_time()/idx) << std::endl;
 
     return 0;
 }
