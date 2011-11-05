@@ -56,6 +56,7 @@ bool getY(FrameReader& reader, Matrix<_T>& frame)
     if ( reader.getY(_temp_buffer) ) {
         /*
         * If everything is fine, I have my data ready to be stored in my frame
+        * I copy the data backwards
         */
         for (int idx = (frame.get_elems()-1); idx >= 0; idx--)
             frame(idx) = static_cast<_T>(_temp_buffer[idx]);
@@ -65,6 +66,13 @@ bool getY(FrameReader& reader, Matrix<_T>& frame)
     else
         return false;
 }
+
+/*
+ * Specialization for Matrix<char>
+ */
+template<>
+bool getY<char>(FrameReader& reader, Matrix<char>& frame);
+
 
 }
 
