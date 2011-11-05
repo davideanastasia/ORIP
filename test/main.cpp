@@ -106,10 +106,15 @@ int main()
     my_reader->open("../hall.yuv");
 
     ORIP::Matrix<char> my_matrix(my_reader->getFrameHeight(), my_reader->getFrameWidth());
+    ORIP::Matrix<char> my_output(my_reader->getFrameHeight(), my_reader->getFrameWidth());
+    ORIP::Matrix<char> kernel(3, 3);
+    set_kernel(kernel);
 
     int idx = 0;
     while (ORIP::getY(*my_reader, my_matrix))
     {
+        ORIP::convolution(my_matrix, kernel, my_output);
+
         std::cout << "Frame " << idx++ << std::endl;
     }
 
