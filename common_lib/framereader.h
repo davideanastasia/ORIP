@@ -13,7 +13,7 @@
 
 namespace ORIP
 {
-enum ReaderMode {YUV420, V4L};
+enum ReaderMode {I_YUV420, I_V4L};
 
 class FrameReader
 {
