@@ -96,7 +96,37 @@ int main(int ac, char* av[])
 }
 */
 
+template <class T>
+void set_sobel_x(ORIP::Matrix<T>& M)
+{
+    M(0,0) = -1;
+    M(0,1) = 0;
+    M(0,2) = +1;
 
+    M(1,0) = -2;
+    M(1,1) = 0;
+    M(1,2) = +2;
+
+    M(2,0) = -1;
+    M(2,1) = 0;
+    M(2,2) = +1;
+}
+
+template <class T>
+void set_sobel_y(ORIP::Matrix<T>& M)
+{
+    M(0,0) = -1;
+    M(0,1) = -2;
+    M(0,2) = -1;
+
+    M(1,0) = 0;
+    M(1,1) = 0;
+    M(1,2) = 0;
+
+    M(2,0) = +1;
+    M(2,1) = +2;
+    M(2,2) = +1;
+}
 
 int main()
 {
@@ -105,21 +135,35 @@ int main()
     ORIP::FrameReader* my_reader = ORIP::FrameReader::getReader(ORIP::I_YUV420);
     ORIP::FrameWriter* my_writer = ORIP::FrameWriter::getWriter(ORIP::O_YUV420);
 
-
     my_reader->open("../hall.yuv");
     my_writer->open("../test.yuv");
 
     ORIP::Matrix<char> my_matrix(my_reader->getFrameHeight(), my_reader->getFrameWidth());
-    ORIP::Matrix<char> my_output(my_reader->getFrameHeight(), my_reader->getFrameWidth());
-    ORIP::Matrix<char> kernel(3, 3);
-    set_kernel(kernel);
+
+    ORIP::Matrix<char> Gx(my_reader->getFrameHeight(), my_reader->getFrameWidth());
+    ORIP::Matrix<char> Gy(my_reader->getFrameHeight(), my_reader->getFrameWidth());
+
+    ORIP::Matrix<char> G(my_reader->getFrameHeight(), my_reader->getFrameWidth());
+
+    ORIP::Matrix<char> Kx(3, 3);
+    ORIP::Matrix<char> Ky(3, 3);
+
+    set_sobel_x(Kx);
+    set_sobel_y(Ky);
 
     int idx = 0;
     while (ORIP::getY(*my_reader, my_matrix))
     {
-        ORIP::convolution(my_matrix, kernel, my_output);
+        ORIP::convolution(my_matrix, Kx, Gx);
+        ORIP::convolution(my_matrix, Ky, Gy);
 
-        my_writer->storeY(my_output.data());
+        for (int x = 0; x < G.get_elems(); x++)
+        {
+            float t = sqrtf( powf(Gx(x), 2.0) + powf(Gy(x), 2.0) );
+            G(x) = ( t > 10 )? t : 0;
+        }
+
+        ORIP::storeFrame(*my_writer, G);
         std::cout << "Frame " << idx++ << std::endl;
     }
 
