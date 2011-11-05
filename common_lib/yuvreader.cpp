@@ -24,10 +24,10 @@ void YUVReader::open(const std::string& filename)
     // I close the stream
     if ( m_InputFileStream.is_open() ) m_InputFileStream.close();
 
-    m_InputFileStream.open(filename.c_str(), std::ios::in|std::ios::binary|std::ios::ate);
+    m_InputFileStream.open(filename.c_str(), std::ios::in|std::ios::binary);
 }
 
-bool YUVReader::getY(unsigned char* Y)
+bool YUVReader::getY(char* Y)
 {
     if ( !m_InputFileStream.is_open() ) return false;
     if ( !m_InputFileStream.good() ) return false;
