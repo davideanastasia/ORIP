@@ -152,7 +152,7 @@ int main()
     set_sobel_y(Ky);
 
     int idx = 0;
-    while (ORIP::getY(*my_reader, my_matrix))
+    while (ORIP::loadFrame(*my_reader, my_matrix))
     {
         ORIP::convolution(my_matrix, Kx, Gx);
         ORIP::convolution(my_matrix, Ky, Gy);

@@ -38,7 +38,7 @@ public:
 };
 
 template<typename _T>
-bool getY(FrameReader& reader, Matrix<_T>& frame)
+bool loadFrame(FrameReader& reader, Matrix<_T>& frame)
 {
     /*
      * I know, assert is not the best way to deal with this kind of error,
@@ -71,7 +71,7 @@ bool getY(FrameReader& reader, Matrix<_T>& frame)
  * Specialization for Matrix<char>
  */
 template<>
-bool getY<char>(FrameReader& reader, Matrix<char>& frame);
+bool loadFrame<char>(FrameReader& reader, Matrix<char>& frame);
 
 
 }
